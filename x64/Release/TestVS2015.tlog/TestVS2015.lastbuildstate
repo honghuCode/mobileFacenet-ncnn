@@ -1,0 +1,2 @@
+#TargetFrameworkVersion=v4.0:PlatformToolSet=v120:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit
+Release|x64|C:\insightFace\ncnn-mobileFaceNet\mtcnn_ncnn\vs2015\|
