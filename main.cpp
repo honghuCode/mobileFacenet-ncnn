@@ -65,50 +65,55 @@ float CalcSimilarity_1(const float* fc1,
 void main()
 {
 	ncnn::Net squeezenet;
-	squeezenet.load_param("mobilenet_ncnn.param");
-	squeezenet.load_model("mobilenet_ncnn.bin");
+	//98.83
+	/*squeezenet.load_param("mobilenet_ncnn.param");
+	squeezenet.load_model("mobilenet_ncnn.bin");*/
+	//99.4
+	squeezenet.load_param("mobilefacenet.param");
+	squeezenet.load_model("mobilefacenet.bin"); 
 	ncnn::Extractor ex = squeezenet.create_extractor();
 	ex.set_light_mode(true);
 
-	cv::Mat m1 = cv::imread("2_1.jpg", CV_LOAD_IMAGE_COLOR);
-	cv::Mat m2 = cv::imread("2.jpg", CV_LOAD_IMAGE_COLOR);
-		
-	//cout << "lfw-112X112/" + img_L << endl;
-
-	float* feat1 = getFeatByMobileFaceNetNCNN(ex, m1);
-	float *feat2 = getFeatByMobileFaceNetNCNN(ex, m2);
-
-
-
-	float sim = CalcSimilarity_1(feat1, feat2, 128);
-	fprintf(stderr, "%f\n", sim);
-
-	//fstream in("pairs_1.txt");
-	//string line;
-	//while (in >> line)
-	//{
-	//	//cout <<line<<endl;
-	//	std::vector<std::string>  rs = splitString_1(line, ',');
-
-	//	string img_L = rs[0];
-	//	string img_R = rs[1];
-	//	string flag = rs[2];
-	//	//cout <<img_L<<endl;
-	//	std::vector<float> cls_scores;
-	//	cv::Mat m1 = cv::imread("lfw-112X112/" + img_L, CV_LOAD_IMAGE_COLOR);
-	//	cv::Mat m2 = cv::imread("lfw-112X112/" + img_R, CV_LOAD_IMAGE_COLOR);
+	//cv::Mat m1 = cv::imread("2_1.jpg", CV_LOAD_IMAGE_COLOR);
+	//cv::Mat m2 = cv::imread("2.jpg", CV_LOAD_IMAGE_COLOR);
 	//	
-	//	//cout << "lfw-112X112/" + img_L << endl;
+	////cout << "lfw-112X112/" + img_L << endl;
 
-	//	float* feat1 = getFeatByMobileFaceNetNCNN(ex, m1);
-	//	float *feat2 = getFeatByMobileFaceNetNCNN(ex, m2);
+	//float* feat1 = getFeatByMobileFaceNetNCNN(ex, m1);
+	//float *feat2 = getFeatByMobileFaceNetNCNN(ex, m2);
 
 
 
-	//	float sim = CalcSimilarity_1(feat1, feat2, 128);
-	//	fprintf(stderr, "%s,%f\n", flag.c_str(), sim);
-	//	//out << flag.c_str() << sim << endl;
-	//}
+	//float sim = CalcSimilarity_1(feat1, feat2, 128);
+	//fprintf(stderr, "%f\n", sim);
+	//LFW: 99.50, CFP_FP: 88.94, AgeDB30: 95.91
+	fstream in("pairs_1.txt");
+	fstream out("rs_lfw_99.50.txt",ios::out);
+	string line;
+	while (in >> line)
+	{
+		//cout <<line<<endl;
+		std::vector<std::string>  rs = splitString_1(line, ',');
+
+		string img_L = rs[0];
+		string img_R = rs[1];
+		string flag = rs[2];
+		//cout <<img_L<<endl;
+		std::vector<float> cls_scores;
+		cv::Mat m1 = cv::imread("lfw-112X112/" + img_L, CV_LOAD_IMAGE_COLOR);
+		cv::Mat m2 = cv::imread("lfw-112X112/" + img_R, CV_LOAD_IMAGE_COLOR);
+		
+		//cout << "lfw-112X112/" + img_L << endl;
+
+		float* feat1 = getFeatByMobileFaceNetNCNN(ex, m1);
+		float *feat2 = getFeatByMobileFaceNetNCNN(ex, m2);
+
+
+
+		float sim = CalcSimilarity_1(feat1, feat2, 128);
+		fprintf(stderr, "%s,%f\n", flag.c_str(), sim);
+		out << flag.c_str() << "\t"<<sim << endl;
+	}
 
 
 	//float* getFeatByMobileFaceNetNCNN(ncnn::Extractor ex, cv::Mat img);
