@@ -149,7 +149,7 @@ cv::Mat getsrc_roi(std::vector<cv::Point2f> x0, std::vector<cv::Point2f> dst)
 }
 
 
-cv::Mat faceAlign(cv::Mat image)
+cv::Mat faceAlign(cv::Mat image, MTCNN *mtcnn)
 {
 	double dst_landmark[10] = {
 		38.2946, 73.5318, 55.0252, 41.5493, 70.7299,
@@ -160,16 +160,16 @@ cv::Mat faceAlign(cv::Mat image)
 		coord5points.push_back(cv::Point2f(dst_landmark[i], dst_landmark[i + 5]));
 	}
 	char *model_path = "./models";
-	MTCNN mtcnn(model_path);
+	(model_path);
 	clock_t start_time = clock();
 
 	ncnn::Mat ncnn_img = ncnn::Mat::from_pixels(image.data, ncnn::Mat::PIXEL_BGR2RGB, image.cols, image.rows);
 	std::vector<Bbox> finalBbox;
 
 #if(MAXFACEOPEN==1)
-	mtcnn.detectMaxFace(ncnn_img, finalBbox);
+	mtcnn->detectMaxFace(ncnn_img, finalBbox);
 #else
-	mtcnn.detect(ncnn_img, finalBbox);
+	mtcnn->detect(ncnn_img, finalBbox);
 #endif
 
 	const int num_box = finalBbox.size(); //人脸的数量（默认一张脸）
@@ -196,11 +196,20 @@ cv::Mat faceAlign(cv::Mat image)
 
 void main()
 {
-	cv::Mat image = cv::imread("./xuzheng.jpg");
-	cv::Mat alignedFace1 = faceAlign(image);
+	cv::Mat image = cv::imread("./wanghan.jpg");
+	MTCNN *mtcnn = new MTCNN("./models");
+	cv::Mat alignedFace1 = faceAlign(image, mtcnn);
 	
-	image = cv::imread("./wanghan.jpg");
-	cv::Mat alignedFace2 = faceAlign(image);
+	image = cv::imread("./wanghan_2.jpg");
+
+	cv::Mat alignedFace2 = faceAlign(image, mtcnn);
+
+	//cv::imshow("alignedFace1", alignedFace1);
+	//cv::waitKey(0);
+
+	//cv::imshow("alignedFace2", alignedFace2);
+	//cv::waitKey(0);
+
 	ncnn::Net squeezenet;
 	//98.83
 	/*squeezenet.load_param("mobilenet_ncnn.param");
@@ -213,14 +222,14 @@ void main()
 
 		
 	//cout << "lfw-112X112/" + img_L << endl;
-
+	long t1 = clock();
 	float* feat1 = getFeatByMobileFaceNetNCNN(ex, alignedFace1);
 	float *feat2 = getFeatByMobileFaceNetNCNN(ex, alignedFace2);
-
+	long t2 = clock();
 
 
 	float sim = CalcSimilarity_1(feat1, feat2, 128);
-	fprintf(stderr, "%f\n", sim);
+	fprintf(stderr, "time:%f,sim:%f\n", (t2 - t1) / 2.0,sim);
 
 
 
