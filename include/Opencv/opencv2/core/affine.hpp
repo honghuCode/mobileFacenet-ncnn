@@ -41,8 +41,8 @@
 //
 //M*/
 
-#ifndef OPENCV_CORE_AFFINE3_HPP
-#define OPENCV_CORE_AFFINE3_HPP
+#ifndef __OPENCV_CORE_AFFINE3_HPP__
+#define __OPENCV_CORE_AFFINE3_HPP__
 
 #ifdef __cplusplus
 
@@ -110,7 +110,7 @@ namespace cv
         //! a.rotate(R) is equivalent to Affine(R, 0) * a;
         Affine3 rotate(const Mat3& R) const;
 
-        //! a.rotate(rvec) is equivalent to Affine(rvec, 0) * a;
+        //! a.rotate(R) is equivalent to Affine(rvec, 0) * a;
         Affine3 rotate(const Vec3& rvec) const;
 
         //! a.translate(t) is equivalent to Affine(E, t) * a;
@@ -241,25 +241,30 @@ void cv::Affine3<T>::rotation(const Mat3& R)
 template<typename T> inline
 void cv::Affine3<T>::rotation(const Vec3& _rvec)
 {
-    double theta = norm(_rvec);
+    double rx = _rvec[0], ry = _rvec[1], rz = _rvec[2];
+    double theta = std::sqrt(rx*rx + ry*ry + rz*rz);
 
     if (theta < DBL_EPSILON)
         rotation(Mat3::eye());
     else
     {
+        const double I[] = { 1, 0, 0, 0, 1, 0, 0, 0, 1 };
+
         double c = std::cos(theta);
         double s = std::sin(theta);
         double c1 = 1. - c;
         double itheta = (theta != 0) ? 1./theta : 0.;
 
-        Point3_<T> r = _rvec*itheta;
+        rx *= itheta; ry *= itheta; rz *= itheta;
 
-        Mat3 rrt( r.x*r.x, r.x*r.y, r.x*r.z, r.x*r.y, r.y*r.y, r.y*r.z, r.x*r.z, r.y*r.z, r.z*r.z );
-        Mat3 r_x( 0, -r.z, r.y, r.z, 0, -r.x, -r.y, r.x, 0 );
+        double rrt[] = { rx*rx, rx*ry, rx*rz, rx*ry, ry*ry, ry*rz, rx*rz, ry*rz, rz*rz };
+        double _r_x_[] = { 0, -rz, ry, rz, 0, -rx, -ry, rx, 0 };
+        Mat3 R;
 
         // R = cos(theta)*I + (1 - cos(theta))*r*rT + sin(theta)*[r_x]
         // where [r_x] is [0 -rz ry; rz 0 -rx; -ry rx 0]
-        Mat3 R = c*Mat3::eye() + c1*rrt + s*r_x;
+        for(int k = 0; k < 9; ++k)
+            R.val[k] = static_cast<float_type>(c*I[k] + c1*rrt[k] + s*_r_x_[k]);
 
         rotation(R);
     }
@@ -514,4 +519,4 @@ cv::Affine3<T>::operator Eigen::Transform<T, 3, Eigen::Affine>() const
 
 #endif /* __cplusplus */
 
-#endif /* OPENCV_CORE_AFFINE3_HPP */
+#endif /* __OPENCV_CORE_AFFINE3_HPP__ */

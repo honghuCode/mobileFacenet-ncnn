@@ -39,8 +39,8 @@
 //
 //M*/
 
-#ifndef OPENCV_IMGCODECS_H
-#define OPENCV_IMGCODECS_H
+#ifndef __OPENCV_IMGCODECS_H__
+#define __OPENCV_IMGCODECS_H__
 
 #include "opencv2/core/core_c.h"
 
@@ -63,9 +63,7 @@ enum
 /* any depth, ? */
     CV_LOAD_IMAGE_ANYDEPTH   =2,
 /* ?, any color */
-    CV_LOAD_IMAGE_ANYCOLOR   =4,
-/* ?, no rotate */
-    CV_LOAD_IMAGE_IGNORE_ORIENTATION  =128
+    CV_LOAD_IMAGE_ANYCOLOR   =4
 };
 
 /* load image from file
@@ -94,17 +92,8 @@ enum
     CV_IMWRITE_PNG_STRATEGY_RLE =3,
     CV_IMWRITE_PNG_STRATEGY_FIXED =4,
     CV_IMWRITE_PXM_BINARY =32,
-    CV_IMWRITE_WEBP_QUALITY =64,
-    CV_IMWRITE_PAM_TUPLETYPE = 128,
-    CV_IMWRITE_PAM_FORMAT_NULL = 0,
-    CV_IMWRITE_PAM_FORMAT_BLACKANDWHITE = 1,
-    CV_IMWRITE_PAM_FORMAT_GRAYSCALE = 2,
-    CV_IMWRITE_PAM_FORMAT_GRAYSCALE_ALPHA = 3,
-    CV_IMWRITE_PAM_FORMAT_RGB = 4,
-    CV_IMWRITE_PAM_FORMAT_RGB_ALPHA = 5,
+    CV_IMWRITE_WEBP_QUALITY =64
 };
-
-
 
 /* save image to file */
 CVAPI(int) cvSaveImage( const char* filename, const CvArr* image,
@@ -145,4 +134,4 @@ CVAPI(int) cvHaveImageWriter(const char* filename);
 }
 #endif
 
-#endif // OPENCV_IMGCODECS_H
+#endif // __OPENCV_IMGCODECS_H__

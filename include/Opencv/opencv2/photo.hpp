@@ -40,8 +40,8 @@
 //
 //M*/
 
-#ifndef OPENCV_PHOTO_HPP
-#define OPENCV_PHOTO_HPP
+#ifndef __OPENCV_PHOTO_HPP__
+#define __OPENCV_PHOTO_HPP__
 
 #include "opencv2/core.hpp"
 #include "opencv2/imgproc.hpp"
@@ -107,7 +107,7 @@ objects from still images or video. See <http://en.wikipedia.org/wiki/Inpainting
    -   An example using the inpainting technique can be found at
         opencv_source_code/samples/cpp/inpaint.cpp
     -   (Python) An example using the inpainting technique can be found at
-        opencv_source_code/samples/python/inpaint.py
+        opencv_source_code/samples/python2/inpaint.py
  */
 CV_EXPORTS_W void inpaint( InputArray src, InputArray inpaintMask,
         OutputArray dst, double inpaintRadius, int flags );

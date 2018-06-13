@@ -39,8 +39,8 @@
 //
 //M*/
 
-#ifndef OPENCV_CORE_PTR_INL_HPP
-#define OPENCV_CORE_PTR_INL_HPP
+#ifndef __OPENCV_CORE_PTR_INL_HPP__
+#define __OPENCV_CORE_PTR_INL_HPP__
 
 #include <algorithm>
 
@@ -252,32 +252,6 @@ Ptr<Y> Ptr<T>::dynamicCast() const
     return Ptr<Y>(*this, dynamic_cast<Y*>(stored));
 }
 
-#ifdef CV_CXX_MOVE_SEMANTICS
-
-template<typename T>
-Ptr<T>::Ptr(Ptr&& o) : owner(o.owner), stored(o.stored)
-{
-    o.owner = NULL;
-    o.stored = NULL;
-}
-
-template<typename T>
-Ptr<T>& Ptr<T>::operator = (Ptr<T>&& o)
-{
-    if (this == &o)
-        return *this;
-
-    release();
-    owner = o.owner;
-    stored = o.stored;
-    o.owner = NULL;
-    o.stored = NULL;
-    return *this;
-}
-
-#endif
-
-
 template<typename T>
 void swap(Ptr<T>& ptr1, Ptr<T>& ptr2){
     ptr1.swap(ptr2);
@@ -361,19 +335,8 @@ Ptr<T> makePtr(const A1& a1, const A2& a2, const A3& a3, const A4& a4, const A5&
     return Ptr<T>(new T(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10));
 }
 
-template<typename T, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8, typename A9, typename A10, typename A11>
-Ptr<T> makePtr(const A1& a1, const A2& a2, const A3& a3, const A4& a4, const A5& a5, const A6& a6, const A7& a7, const A8& a8, const A9& a9, const A10& a10, const A11& a11)
-{
-    return Ptr<T>(new T(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11));
-}
-
-template<typename T, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8, typename A9, typename A10, typename A11, typename A12>
-Ptr<T> makePtr(const A1& a1, const A2& a2, const A3& a3, const A4& a4, const A5& a5, const A6& a6, const A7& a7, const A8& a8, const A9& a9, const A10& a10, const A11& a11, const A12& a12)
-{
-    return Ptr<T>(new T(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12));
-}
 } // namespace cv
 
 //! @endcond
 
-#endif // OPENCV_CORE_PTR_INL_HPP
+#endif // __OPENCV_CORE_PTR_INL_HPP__

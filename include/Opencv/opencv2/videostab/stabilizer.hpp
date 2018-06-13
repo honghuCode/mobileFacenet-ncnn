@@ -40,8 +40,8 @@
 //
 //M*/
 
-#ifndef OPENCV_VIDEOSTAB_STABILIZER_HPP
-#define OPENCV_VIDEOSTAB_STABILIZER_HPP
+#ifndef __OPENCV_VIDEOSTAB_STABILIZER_HPP__
+#define __OPENCV_VIDEOSTAB_STABILIZER_HPP__
 
 #include <vector>
 #include <ctime>

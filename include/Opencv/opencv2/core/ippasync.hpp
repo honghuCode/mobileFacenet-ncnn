@@ -42,8 +42,8 @@
 //
 //M*/
 
-#ifndef OPENCV_CORE_IPPASYNC_HPP
-#define OPENCV_CORE_IPPASYNC_HPP
+#ifndef __OPENCV_CORE_IPPASYNC_HPP__
+#define __OPENCV_CORE_IPPASYNC_HPP__
 
 #ifdef HAVE_IPP_A
 

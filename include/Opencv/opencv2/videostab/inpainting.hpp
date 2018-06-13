@@ -40,8 +40,8 @@
 //
 //M*/
 
-#ifndef OPENCV_VIDEOSTAB_INPAINTINT_HPP
-#define OPENCV_VIDEOSTAB_INPAINTINT_HPP
+#ifndef __OPENCV_VIDEOSTAB_INPAINTINT_HPP__
+#define __OPENCV_VIDEOSTAB_INPAINTINT_HPP__
 
 #include <vector>
 #include "opencv2/core.hpp"

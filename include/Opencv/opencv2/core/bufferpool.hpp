@@ -4,8 +4,8 @@
 //
 // Copyright (C) 2014, Advanced Micro Devices, Inc., all rights reserved.
 
-#ifndef OPENCV_CORE_BUFFER_POOL_HPP
-#define OPENCV_CORE_BUFFER_POOL_HPP
+#ifndef __OPENCV_CORE_BUFFER_POOL_HPP__
+#define __OPENCV_CORE_BUFFER_POOL_HPP__
 
 namespace cv
 {
@@ -28,4 +28,4 @@ public:
 
 }
 
-#endif // OPENCV_CORE_BUFFER_POOL_HPP
+#endif // __OPENCV_CORE_BUFFER_POOL_HPP__

@@ -41,8 +41,8 @@
 //
 //M*/
 
-#ifndef OPENCV_SHAPE_SHAPE_DISTANCE_HPP
-#define OPENCV_SHAPE_SHAPE_DISTANCE_HPP
+#ifndef __OPENCV_SHAPE_SHAPE_DISTANCE_HPP__
+#define __OPENCV_SHAPE_SHAPE_DISTANCE_HPP__
 #include "opencv2/core.hpp"
 #include "opencv2/shape/hist_cost.hpp"
 #include "opencv2/shape/shape_transformer.hpp"

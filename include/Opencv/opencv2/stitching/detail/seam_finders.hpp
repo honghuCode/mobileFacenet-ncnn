@@ -40,8 +40,8 @@
 //
 //M*/
 
-#ifndef OPENCV_STITCHING_SEAM_FINDERS_HPP
-#define OPENCV_STITCHING_SEAM_FINDERS_HPP
+#ifndef __OPENCV_STITCHING_SEAM_FINDERS_HPP__
+#define __OPENCV_STITCHING_SEAM_FINDERS_HPP__
 
 #include <set>
 #include "opencv2/core.hpp"
@@ -282,4 +282,4 @@ private:
 } // namespace detail
 } // namespace cv
 
-#endif // OPENCV_STITCHING_SEAM_FINDERS_HPP
+#endif // __OPENCV_STITCHING_SEAM_FINDERS_HPP__

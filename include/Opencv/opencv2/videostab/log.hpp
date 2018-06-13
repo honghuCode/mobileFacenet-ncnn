@@ -40,8 +40,8 @@
 //
 //M*/
 
-#ifndef OPENCV_VIDEOSTAB_LOG_HPP
-#define OPENCV_VIDEOSTAB_LOG_HPP
+#ifndef __OPENCV_VIDEOSTAB_LOG_HPP__
+#define __OPENCV_VIDEOSTAB_LOG_HPP__
 
 #include "opencv2/core.hpp"
 

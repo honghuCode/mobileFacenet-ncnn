@@ -41,8 +41,8 @@
 //
 //M*/
 
-#ifndef OPENCV_HIST_COST_HPP
-#define OPENCV_HIST_COST_HPP
+#ifndef __OPENCV_HIST_COST_HPP__
+#define __OPENCV_HIST_COST_HPP__
 
 #include "opencv2/imgproc.hpp"
 

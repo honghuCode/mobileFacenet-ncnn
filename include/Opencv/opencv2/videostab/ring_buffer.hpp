@@ -40,8 +40,8 @@
 //
 //M*/
 
-#ifndef OPENCV_VIDEOSTAB_RING_BUFFER_HPP
-#define OPENCV_VIDEOSTAB_RING_BUFFER_HPP
+#ifndef __OPENCV_VIDEOSTAB_RING_BUFFER_HPP__
+#define __OPENCV_VIDEOSTAB_RING_BUFFER_HPP__
 
 #include <vector>
 #include "opencv2/imgproc.hpp"

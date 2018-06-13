@@ -40,8 +40,8 @@
 //
 //M*/
 
-#ifndef OPENCV_VIDEOSTAB_MOTION_CORE_HPP
-#define OPENCV_VIDEOSTAB_MOTION_CORE_HPP
+#ifndef __OPENCV_VIDEOSTAB_MOTION_CORE_HPP__
+#define __OPENCV_VIDEOSTAB_MOTION_CORE_HPP__
 
 #include <cmath>
 #include "opencv2/core.hpp"

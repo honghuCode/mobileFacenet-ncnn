@@ -40,8 +40,8 @@
 //
 //M*/
 
-#ifndef OPENCV_VIDEOSTAB_FAST_MARCHING_INL_HPP
-#define OPENCV_VIDEOSTAB_FAST_MARCHING_INL_HPP
+#ifndef __OPENCV_VIDEOSTAB_FAST_MARCHING_INL_HPP__
+#define __OPENCV_VIDEOSTAB_FAST_MARCHING_INL_HPP__
 
 #include "opencv2/videostab/fast_marching.hpp"
 

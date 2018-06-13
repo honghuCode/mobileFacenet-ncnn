@@ -40,15 +40,15 @@
 //
 //M*/
 
-#ifndef OPENCV_VIDEOSTAB_HPP
-#define OPENCV_VIDEOSTAB_HPP
+#ifndef __OPENCV_VIDEOSTAB_HPP__
+#define __OPENCV_VIDEOSTAB_HPP__
 
 /**
   @defgroup videostab Video Stabilization
 
 The video stabilization module contains a set of functions and classes that can be used to solve the
-problem of video stabilization. There are a few methods implemented, most of them are described in
-the papers @cite OF06 and @cite G11 . However, there are some extensions and deviations from the original
+problem of video stabilization. There are a few methods implemented, most of them are descibed in
+the papers @cite OF06 and @cite G11 . However, there are some extensions and deviations from the orginal
 paper methods.
 
 ### References

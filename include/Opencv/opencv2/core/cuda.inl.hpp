@@ -41,8 +41,8 @@
 //
 //M*/
 
-#ifndef OPENCV_CORE_CUDAINL_HPP
-#define OPENCV_CORE_CUDAINL_HPP
+#ifndef __OPENCV_CORE_CUDAINL_HPP__
+#define __OPENCV_CORE_CUDAINL_HPP__
 
 #include "opencv2/core/cuda.hpp"
 
@@ -541,16 +541,6 @@ Stream::Stream(const Ptr<Impl>& impl)
 }
 
 //===================================================================================
-// Event
-//===================================================================================
-
-inline
-Event::Event(const Ptr<Impl>& impl)
-    : impl_(impl)
-{
-}
-
-//===================================================================================
 // Initialization & Info
 //===================================================================================
 
@@ -588,7 +578,7 @@ int DeviceInfo::deviceID() const
 inline
 size_t DeviceInfo::freeMemory() const
 {
-    size_t _totalMemory = 0, _freeMemory = 0;
+    size_t _totalMemory, _freeMemory;
     queryMemory(_totalMemory, _freeMemory);
     return _freeMemory;
 }
@@ -596,7 +586,7 @@ size_t DeviceInfo::freeMemory() const
 inline
 size_t DeviceInfo::totalMemory() const
 {
-    size_t _totalMemory = 0, _freeMemory = 0;
+    size_t _totalMemory, _freeMemory;
     queryMemory(_totalMemory, _freeMemory);
     return _totalMemory;
 }
@@ -628,4 +618,4 @@ Mat::Mat(const cuda::GpuMat& m)
 
 //! @endcond
 
-#endif // OPENCV_CORE_CUDAINL_HPP
+#endif // __OPENCV_CORE_CUDAINL_HPP__

@@ -41,8 +41,8 @@
 //
 //M*/
 
-#ifndef OPENCV_OBJDETECT_C_H
-#define OPENCV_OBJDETECT_C_H
+#ifndef __OPENCV_OBJDETECT_C_H__
+#define __OPENCV_OBJDETECT_C_H__
 
 #include "opencv2/core/core_c.h"
 
@@ -162,4 +162,4 @@ CV_EXPORTS CvSeq* cvHaarDetectObjectsForROC( const CvArr* image,
 
 #endif
 
-#endif /* OPENCV_OBJDETECT_C_H */
+#endif /* __OPENCV_OBJDETECT_C_H__ */

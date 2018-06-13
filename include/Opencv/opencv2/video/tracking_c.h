@@ -41,8 +41,8 @@
 //
 //M*/
 
-#ifndef OPENCV_TRACKING_C_H
-#define OPENCV_TRACKING_C_H
+#ifndef __OPENCV_TRACKING_C_H__
+#define __OPENCV_TRACKING_C_H__
 
 #include "opencv2/imgproc/types_c.h"
 
@@ -229,4 +229,4 @@ CVAPI(const CvMat*)  cvKalmanCorrect( CvKalman* kalman, const CvMat* measurement
 #endif
 
 
-#endif // OPENCV_TRACKING_C_H
+#endif // __OPENCV_TRACKING_C_H__

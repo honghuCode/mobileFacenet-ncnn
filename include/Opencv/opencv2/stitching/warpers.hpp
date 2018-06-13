@@ -40,8 +40,8 @@
 //
 //M*/
 
-#ifndef OPENCV_STITCHING_WARPER_CREATORS_HPP
-#define OPENCV_STITCHING_WARPER_CREATORS_HPP
+#ifndef __OPENCV_STITCHING_WARPER_CREATORS_HPP__
+#define __OPENCV_STITCHING_WARPER_CREATORS_HPP__
 
 #include "opencv2/stitching/detail/warpers.hpp"
 
@@ -66,15 +66,6 @@ class PlaneWarper : public WarperCreator
 {
 public:
     Ptr<detail::RotationWarper> create(float scale) const { return makePtr<detail::PlaneWarper>(scale); }
-};
-
-/** @brief Affine warper factory class.
-  @sa detail::AffineWarper
- */
-class AffineWarper : public WarperCreator
-{
-public:
-    Ptr<detail::RotationWarper> create(float scale) const { return makePtr<detail::AffineWarper>(scale); }
 };
 
 /** @brief Cylindrical warper factory class.
@@ -189,4 +180,4 @@ public:
 
 } // namespace cv
 
-#endif // OPENCV_STITCHING_WARPER_CREATORS_HPP
+#endif // __OPENCV_STITCHING_WARPER_CREATORS_HPP__

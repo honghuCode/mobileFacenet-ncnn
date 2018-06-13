@@ -41,8 +41,8 @@
 //
 //M*/
 
-#ifndef OPENCV_SHAPE_SHAPE_TRANSFORM_HPP
-#define OPENCV_SHAPE_SHAPE_TRANSFORM_HPP
+#ifndef __OPENCV_SHAPE_SHAPE_TRANSFORM_HPP__
+#define __OPENCV_SHAPE_SHAPE_TRANSFORM_HPP__
 #include <vector>
 #include "opencv2/core.hpp"
 #include "opencv2/imgproc.hpp"

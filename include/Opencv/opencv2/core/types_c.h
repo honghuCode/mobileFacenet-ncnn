@@ -41,8 +41,8 @@
 //
 //M*/
 
-#ifndef OPENCV_CORE_TYPES_H
-#define OPENCV_CORE_TYPES_H
+#ifndef __OPENCV_CORE_TYPES_H__
+#define __OPENCV_CORE_TYPES_H__
 
 #ifdef HAVE_IPL
 #  ifndef __IPL_H__
@@ -1669,9 +1669,6 @@ typedef struct CvFileStorage CvFileStorage;
 #define CV_STORAGE_FORMAT_AUTO   0
 #define CV_STORAGE_FORMAT_XML    8
 #define CV_STORAGE_FORMAT_YAML  16
-#define CV_STORAGE_FORMAT_JSON  24
-#define CV_STORAGE_BASE64       64
-#define CV_STORAGE_WRITE_BASE64  (CV_STORAGE_BASE64 | CV_STORAGE_WRITE)
 
 /** @brief List of attributes. :
 
@@ -1832,6 +1829,6 @@ CvModuleInfo;
 
 /** @} */
 
-#endif /*OPENCV_CORE_TYPES_H*/
+#endif /*__OPENCV_CORE_TYPES_H__*/
 
 /* End of file. */

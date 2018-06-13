@@ -39,8 +39,8 @@
 //
 //M*/
 
-#ifndef OPENCV_OPENCL_GENBASE_HPP
-#define OPENCV_OPENCL_GENBASE_HPP
+#ifndef __OPENCV_OPENCL_GENBASE_HPP__
+#define __OPENCV_OPENCL_GENBASE_HPP__
 
 namespace cv
 {

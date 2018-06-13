@@ -41,8 +41,8 @@
 //
 //M*/
 
-#ifndef OPENCV_CORE_MAT_HPP
-#define OPENCV_CORE_MAT_HPP
+#ifndef __OPENCV_CORE_MAT_HPP__
+#define __OPENCV_CORE_MAT_HPP__
 
 #ifndef __cplusplus
 #  error mat.hpp header must be compiled as C++
@@ -164,8 +164,7 @@ public:
         CUDA_GPU_MAT      = 9 << KIND_SHIFT,
         UMAT              =10 << KIND_SHIFT,
         STD_VECTOR_UMAT   =11 << KIND_SHIFT,
-        STD_BOOL_VECTOR   =12 << KIND_SHIFT,
-        STD_VECTOR_CUDA_GPU_MAT = 13 << KIND_SHIFT
+        STD_BOOL_VECTOR   =12 << KIND_SHIFT
     };
 
     _InputArray();
@@ -182,7 +181,6 @@ public:
     template<typename _Tp, int m, int n> _InputArray(const Matx<_Tp, m, n>& matx);
     _InputArray(const double& val);
     _InputArray(const cuda::GpuMat& d_mat);
-    _InputArray(const std::vector<cuda::GpuMat>& d_mat_array);
     _InputArray(const ogl::Buffer& buf);
     _InputArray(const cuda::HostMem& cuda_mem);
     template<typename _Tp> _InputArray(const cudev::GpuMat_<_Tp>& m);
@@ -194,7 +192,6 @@ public:
     UMat getUMat(int idx=-1) const;
     void getMatVector(std::vector<Mat>& mv) const;
     void getUMatVector(std::vector<UMat>& umv) const;
-    void getGpuMatVector(std::vector<cuda::GpuMat>& gpumv) const;
     cuda::GpuMat getGpuMat() const;
     ogl::Buffer getOGlBuffer() const;
 
@@ -225,8 +222,7 @@ public:
     bool isMatVector() const;
     bool isUMatVector() const;
     bool isMatx() const;
-    bool isVector() const;
-    bool isGpuMatVector() const;
+
     ~_InputArray();
 
 protected:
@@ -286,7 +282,6 @@ public:
     _OutputArray(Mat& m);
     _OutputArray(std::vector<Mat>& vec);
     _OutputArray(cuda::GpuMat& d_mat);
-    _OutputArray(std::vector<cuda::GpuMat>& d_mat);
     _OutputArray(ogl::Buffer& buf);
     _OutputArray(cuda::HostMem& cuda_mem);
     template<typename _Tp> _OutputArray(cudev::GpuMat_<_Tp>& m);
@@ -303,7 +298,6 @@ public:
     _OutputArray(const Mat& m);
     _OutputArray(const std::vector<Mat>& vec);
     _OutputArray(const cuda::GpuMat& d_mat);
-    _OutputArray(const std::vector<cuda::GpuMat>& d_mat);
     _OutputArray(const ogl::Buffer& buf);
     _OutputArray(const cuda::HostMem& cuda_mem);
     template<typename _Tp> _OutputArray(const cudev::GpuMat_<_Tp>& m);
@@ -322,7 +316,6 @@ public:
     Mat& getMatRef(int i=-1) const;
     UMat& getUMatRef(int i=-1) const;
     cuda::GpuMat& getGpuMatRef() const;
-    std::vector<cuda::GpuMat>& getGpuMatVecRef() const;
     ogl::Buffer& getOGlBufferRef() const;
     cuda::HostMem& getHostMemRef() const;
     void create(Size sz, int type, int i=-1, bool allowTransposed=false, int fixedDepthMask=0) const;
@@ -362,7 +355,6 @@ public:
     _InputOutputArray(const Mat& m);
     _InputOutputArray(const std::vector<Mat>& vec);
     _InputOutputArray(const cuda::GpuMat& d_mat);
-    _InputOutputArray(const std::vector<cuda::GpuMat>& d_mat);
     _InputOutputArray(const ogl::Buffer& buf);
     _InputOutputArray(const cuda::HostMem& cuda_mem);
     template<typename _Tp> _InputOutputArray(const cudev::GpuMat_<_Tp>& m);
@@ -503,8 +495,6 @@ struct CV_EXPORTS UMatData
     void* handle;
     void* userdata;
     int allocatorFlags_;
-    int mapcount;
-    UMatData* originalUMatData;
 };
 
 
@@ -795,13 +785,6 @@ public:
     Mat(int ndims, const int* sizes, int type);
 
     /** @overload
-    @param sizes Array of integers specifying an n-dimensional array shape.
-    @param type Array type. Use CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, or
-    CV_8UC(n), ..., CV_64FC(n) to create multi-channel (up to CV_CN_MAX channels) matrices.
-    */
-    Mat(const std::vector<int>& sizes, int type);
-
-    /** @overload
     @param ndims Array dimensionality.
     @param sizes Array of integers specifying an n-dimensional array shape.
     @param type Array type. Use CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, or
@@ -811,17 +794,6 @@ public:
     Mat::operator=(const Scalar& value) .
     */
     Mat(int ndims, const int* sizes, int type, const Scalar& s);
-
-    /** @overload
-    @param sizes Array of integers specifying an n-dimensional array shape.
-    @param type Array type. Use CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, or
-    CV_8UC(n), ..., CV_64FC(n) to create multi-channel (up to CV_CN_MAX channels) matrices.
-    @param s An optional value to initialize each matrix element with. To set all the matrix elements to
-    the particular value after the construction, use the assignment operator
-    Mat::operator=(const Scalar& value) .
-    */
-    Mat(const std::vector<int>& sizes, int type, const Scalar& s);
-
 
     /** @overload
     @param m Array that (as a whole or partly) is assigned to the constructed matrix. No data is copied
@@ -880,20 +852,6 @@ public:
     Mat(int ndims, const int* sizes, int type, void* data, const size_t* steps=0);
 
     /** @overload
-    @param sizes Array of integers specifying an n-dimensional array shape.
-    @param type Array type. Use CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, or
-    CV_8UC(n), ..., CV_64FC(n) to create multi-channel (up to CV_CN_MAX channels) matrices.
-    @param data Pointer to the user data. Matrix constructors that take data and step parameters do not
-    allocate matrix data. Instead, they just initialize the matrix header that points to the specified
-    data, which means that no data is copied. This operation is very efficient and can be used to
-    process external data using OpenCV functions. The external data is not automatically deallocated, so
-    you should take care of it.
-    @param steps Array of ndims-1 steps in case of a multi-dimensional array (the last step is always
-    set to the element size). If not specified, the matrix is assumed to be continuous.
-    */
-    Mat(const std::vector<int>& sizes, int type, void* data, const size_t* steps=0);
-
-    /** @overload
     @param m Array that (as a whole or partly) is assigned to the constructed matrix. No data is copied
     by these constructors. Instead, the header pointing to m data or its sub-array is constructed and
     associated with it. The reference counter, if any, is incremented. So, when you modify the matrix
@@ -924,16 +882,6 @@ public:
     @param ranges Array of selected ranges of m along each dimensionality.
     */
     Mat(const Mat& m, const Range* ranges);
-
-    /** @overload
-    @param m Array that (as a whole or partly) is assigned to the constructed matrix. No data is copied
-    by these constructors. Instead, the header pointing to m data or its sub-array is constructed and
-    associated with it. The reference counter, if any, is incremented. So, when you modify the matrix
-    formed using such a constructor, you also modify the corresponding elements of m . If you want to
-    have an independent copy of the sub-array, use Mat::clone() .
-    @param ranges Array of selected ranges of m along each dimensionality.
-    */
-    Mat(const Mat& m, const std::vector<Range>& ranges);
 
     /** @overload
     @param vec STL vector whose elements form the matrix. The matrix has a single column and the number
@@ -1088,8 +1036,9 @@ public:
 
     /** @brief creates a diagonal matrix
 
-    The method creates a square diagonal matrix from specified main diagonal.
-    @param d One-dimensional matrix that represents the main diagonal.
+    The method makes a new header for the specified matrix diagonal. The new matrix is represented as a
+    single-column matrix. Similarly to Mat::row and Mat::col, this is an O(1) operation.
+    @param d Single-column matrix that forms a diagonal matrix
      */
     static Mat diag(const Mat& d);
 
@@ -1121,7 +1070,6 @@ public:
     @param m Destination matrix. If it does not have a proper size or type before the operation, it is
     reallocated.
     @param mask Operation mask. Its non-zero elements indicate which matrix elements need to be copied.
-    The mask has to be of type CV_8U and can have 1 or multiple channels.
     */
     void copyTo( OutputArray m, InputArray mask ) const;
 
@@ -1370,12 +1318,6 @@ public:
     */
     void create(int ndims, const int* sizes, int type);
 
-    /** @overload
-    @param sizes Array of integers specifying a new array shape.
-    @param type New matrix type.
-    */
-    void create(const std::vector<int>& sizes, int type);
-
     /** @brief Increments the reference counter.
 
     The method increments the reference counter associated with the matrix data. If the matrix header
@@ -1525,11 +1467,6 @@ public:
     @param ranges Array of selected ranges along each array dimension.
     */
     Mat operator()( const Range* ranges ) const;
-
-    /** @overload
-    @param ranges Array of selected ranges along each array dimension.
-    */
-    Mat operator()(const std::vector<Range>& ranges) const;
 
     // //! converts header to CvMat; no data is copied
     // operator CvMat() const;
@@ -1697,16 +1634,10 @@ public:
     /** @overload */
     const uchar* ptr(int i0=0) const;
 
-    /** @overload
-    @param row Index along the dimension 0
-    @param col Index along the dimension 1
-    */
-    uchar* ptr(int row, int col);
-    /** @overload
-    @param row Index along the dimension 0
-    @param col Index along the dimension 1
-    */
-    const uchar* ptr(int row, int col) const;
+    /** @overload */
+    uchar* ptr(int i0, int i1);
+    /** @overload */
+    const uchar* ptr(int i0, int i1) const;
 
     /** @overload */
     uchar* ptr(int i0, int i1, int i2);
@@ -1726,16 +1657,10 @@ public:
     template<typename _Tp> _Tp* ptr(int i0=0);
     /** @overload */
     template<typename _Tp> const _Tp* ptr(int i0=0) const;
-    /** @overload
-    @param row Index along the dimension 0
-    @param col Index along the dimension 1
-    */
-    template<typename _Tp> _Tp* ptr(int row, int col);
-    /** @overload
-    @param row Index along the dimension 0
-    @param col Index along the dimension 1
-    */
-    template<typename _Tp> const _Tp* ptr(int row, int col) const;
+    /** @overload */
+    template<typename _Tp> _Tp* ptr(int i0, int i1);
+    /** @overload */
+    template<typename _Tp> const _Tp* ptr(int i0, int i1) const;
     /** @overload */
     template<typename _Tp> _Tp* ptr(int i0, int i1, int i2);
     /** @overload */
@@ -1766,17 +1691,6 @@ public:
             for(int j = 0; j < H.cols; j++)
                 H.at<double>(i,j)=1./(i+j+1);
     @endcode
-
-    Keep in mind that the size identifier used in the at operator cannot be chosen at random. It depends
-    on the image from which you are trying to retrieve the data. The table below gives a better insight in this:
-     - If matrix is of type `CV_8U` then use `Mat.at<uchar>(y,x)`.
-     - If matrix is of type `CV_8S` then use `Mat.at<schar>(y,x)`.
-     - If matrix is of type `CV_16U` then use `Mat.at<ushort>(y,x)`.
-     - If matrix is of type `CV_16S` then use `Mat.at<short>(y,x)`.
-     - If matrix is of type `CV_32S`  then use `Mat.at<int>(y,x)`.
-     - If matrix is of type `CV_32F`  then use `Mat.at<float>(y,x)`.
-     - If matrix is of type `CV_64F` then use `Mat.at<double>(y,x)`.
-
     @param i0 Index along the dimension 0
      */
     template<typename _Tp> _Tp& at(int i0=0);
@@ -1785,15 +1699,15 @@ public:
     */
     template<typename _Tp> const _Tp& at(int i0=0) const;
     /** @overload
-    @param row Index along the dimension 0
-    @param col Index along the dimension 1
+    @param i0 Index along the dimension 0
+    @param i1 Index along the dimension 1
     */
-    template<typename _Tp> _Tp& at(int row, int col);
+    template<typename _Tp> _Tp& at(int i0, int i1);
     /** @overload
-    @param row Index along the dimension 0
-    @param col Index along the dimension 1
+    @param i0 Index along the dimension 0
+    @param i1 Index along the dimension 1
     */
-    template<typename _Tp> const _Tp& at(int row, int col) const;
+    template<typename _Tp> const _Tp& at(int i0, int i1) const;
 
     /** @overload
     @param i0 Index along the dimension 0
@@ -1880,11 +1794,12 @@ public:
     template<typename _Tp> MatIterator_<_Tp> end();
     template<typename _Tp> MatConstIterator_<_Tp> end() const;
 
-    /** @brief Runs the given functor over all matrix elements in parallel.
+    /** @brief Invoke with arguments functor, and runs the functor over all matrix element.
 
-    The operation passed as argument has to be a function pointer, a function object or a lambda(C++11).
+    The methos runs operation in parallel. Operation is passed by arguments. Operation have to be a
+    function pointer, a function object or a lambda(C++11).
 
-    Example 1. All of the operations below put 0xFF the first channel of all matrix elements:
+    All of below operation is equal. Put 0xFF to first channel of all matrix elements:
     @code
         Mat image(1920, 1080, CV_8UC3);
         typedef cv::Point3_<uint8_t> Pixel;
@@ -1916,18 +1831,18 @@ public:
             p.x = 255;
         });
     @endcode
-    Example 2. Using the pixel's position:
+    position parameter is index of current pixel:
     @code
-        // Creating 3D matrix (255 x 255 x 255) typed uint8_t
-        // and initialize all elements by the value which equals elements position.
-        // i.e. pixels (x,y,z) = (1,2,3) is (b,g,r) = (1,2,3).
+        // Creating 3D matrix (255 x 255 x 255) typed uint8_t,
+        //  and initialize all elements by the value which equals elements position.
+        //  i.e. pixels (x,y,z) = (1,2,3) is (b,g,r) = (1,2,3).
 
         int sizes[] = { 255, 255, 255 };
         typedef cv::Point3_<uint8_t> Pixel;
 
         Mat_<Pixel> image = Mat::zeros(3, sizes, CV_8UC3);
 
-        image.forEach<Pixel>([&](Pixel& pixel, const int position[]) -> void {
+        image.forEachWithPosition([&](Pixel& pixel, const int position[]) -> void{
             pixel.x = position[0];
             pixel.y = position[1];
             pixel.z = position[2];
@@ -1937,11 +1852,6 @@ public:
     template<typename _Tp, typename Functor> void forEach(const Functor& operation);
     /** @overload */
     template<typename _Tp, typename Functor> void forEach(const Functor& operation) const;
-
-#ifdef CV_CXX_MOVE_SEMANTICS
-    Mat(Mat&& m);
-    Mat& operator = (Mat&& m);
-#endif
 
     enum { MAGIC_VAL  = 0x42FF0000, AUTO_STEP = 0, CONTINUOUS_FLAG = CV_MAT_CONT_FLAG, SUBMATRIX_FLAG = CV_SUBMAT_FLAG };
     enum { MAGIC_MASK = 0xFFFF0000, TYPE_MASK = 0x00000FFF, DEPTH_MASK = 7 };
@@ -1969,8 +1879,6 @@ public:
     MatAllocator* allocator;
     //! and the standard allocator
     static MatAllocator* getStdAllocator();
-    static MatAllocator* getDefaultAllocator();
-    static void setDefaultAllocator(MatAllocator* allocator);
 
     //! interaction with UMat
     UMatData* u;
@@ -2069,8 +1977,6 @@ public:
     Mat_(const Mat_& m, const Rect& roi);
     //! selects a submatrix, n-dim version
     Mat_(const Mat_& m, const Range* ranges);
-    //! selects a submatrix, n-dim version
-    Mat_(const Mat_& m, const std::vector<Range>& ranges);
     //! from a matrix expression
     explicit Mat_(const MatExpr& e);
     //! makes a matrix out of Vec, std::vector, Point_ or Point3_. The matrix will have a single column
@@ -2140,7 +2046,6 @@ public:
     Mat_ operator()( const Range& rowRange, const Range& colRange ) const;
     Mat_ operator()( const Rect& roi ) const;
     Mat_ operator()( const Range* ranges ) const;
-    Mat_ operator()(const std::vector<Range>& ranges) const;
 
     //! more convenient forms of row and element access operators
     _Tp* operator [](int y);
@@ -2161,9 +2066,9 @@ public:
     //! returns read-only reference to the specified element (1D case)
     const _Tp& operator ()(int idx0) const;
     //! returns reference to the specified element (2D case)
-    _Tp& operator ()(int row, int col);
+    _Tp& operator ()(int idx0, int idx1);
     //! returns read-only reference to the specified element (2D case)
-    const _Tp& operator ()(int row, int col) const;
+    const _Tp& operator ()(int idx0, int idx1) const;
     //! returns reference to the specified element (3D case)
     _Tp& operator ()(int idx0, int idx1, int idx2);
     //! returns read-only reference to the specified element (3D case)
@@ -2178,16 +2083,6 @@ public:
     template<int n> operator Vec<typename DataType<_Tp>::channel_type, n>() const;
     //! conversion to Matx
     template<int m, int n> operator Matx<typename DataType<_Tp>::channel_type, m, n>() const;
-
-#ifdef CV_CXX_MOVE_SEMANTICS
-    Mat_(Mat_&& m);
-    Mat_& operator = (Mat_&& m);
-
-    Mat_(Mat&& m);
-    Mat_& operator = (Mat&& m);
-
-    Mat_(MatExpr&& e);
-#endif
 };
 
 typedef Mat_<uchar> Mat1b;
@@ -2245,7 +2140,6 @@ public:
     UMat(const UMat& m, const Range& rowRange, const Range& colRange=Range::all());
     UMat(const UMat& m, const Rect& roi);
     UMat(const UMat& m, const Range* ranges);
-    UMat(const UMat& m, const std::vector<Range>& ranges);
     //! builds matrix from std::vector with or without copying the data
     template<typename _Tp> explicit UMat(const std::vector<_Tp>& vec, bool copyData=false);
     //! builds matrix from cv::Vec; the data is copied by default
@@ -2330,7 +2224,6 @@ public:
     void create(int rows, int cols, int type, UMatUsageFlags usageFlags = USAGE_DEFAULT);
     void create(Size size, int type, UMatUsageFlags usageFlags = USAGE_DEFAULT);
     void create(int ndims, const int* sizes, int type, UMatUsageFlags usageFlags = USAGE_DEFAULT);
-    void create(const std::vector<int>& sizes, int type, UMatUsageFlags usageFlags = USAGE_DEFAULT);
 
     //! increases the reference counter; use with care to avoid memleaks
     void addref();
@@ -2352,7 +2245,6 @@ public:
     UMat operator()( Range rowRange, Range colRange ) const;
     UMat operator()( const Rect& roi ) const;
     UMat operator()( const Range* ranges ) const;
-    UMat operator()(const std::vector<Range>& ranges) const;
 
     //! returns true iff the matrix data is continuous
     // (i.e. when there are no gaps between successive rows).
@@ -2382,11 +2274,6 @@ public:
 
     //! returns N if the matrix is 1-channel (N x ptdim) or ptdim-channel (1 x N) or (N x 1); negative number otherwise
     int checkVector(int elemChannels, int depth=-1, bool requireContinuous=true) const;
-
-#ifdef CV_CXX_MOVE_SEMANTICS
-    UMat(UMat&& m);
-    UMat& operator = (UMat&& m);
-#endif
 
     void* handle(int accessFlags) const;
     void ndoffset(size_t* ofs) const;
@@ -2439,16 +2326,15 @@ Elements can be accessed using the following methods:
     SparseMat::find), for example:
     @code
         const int dims = 5;
-        int size[5] = {10, 10, 10, 10, 10};
+        int size[] = {10, 10, 10, 10, 10};
         SparseMat sparse_mat(dims, size, CV_32F);
         for(int i = 0; i < 1000; i++)
         {
             int idx[dims];
             for(int k = 0; k < dims; k++)
-                idx[k] = rand() % size[k];
+                idx[k] = rand()
             sparse_mat.ref<float>(idx) += 1.f;
         }
-        cout << "nnz = " << sparse_mat.nzcount() << endl;
     @endcode
 -   Sparse matrix iterators. They are similar to MatIterator but different from NAryMatIterator.
     That is, the iteration loop is familiar to STL users:
@@ -2950,9 +2836,9 @@ public:
     //! copy operator
     MatConstIterator_& operator = (const MatConstIterator_& it);
     //! returns the current matrix element
-    const _Tp& operator *() const;
+    _Tp operator *() const;
     //! returns the i-th matrix element, relative to the current
-    const _Tp& operator [](ptrdiff_t i) const;
+    _Tp operator [](ptrdiff_t i) const;
 
     //! shifts the iterator forward by the specified number of elements
     MatConstIterator_& operator += (ptrdiff_t ofs);
@@ -3216,29 +3102,21 @@ The example below illustrates how you can compute a normalized and threshold 3D 
         }
 
         minProb *= image.rows*image.cols;
-
-        // initialize iterator (the style is different from STL).
-        // after initialization the iterator will contain
-        // the number of slices or planes the iterator will go through.
-        // it simultaneously increments iterators for several matrices
-        // supplied as a null terminated list of pointers
-        const Mat* arrays[] = {&hist, 0};
-        Mat planes[1];
-        NAryMatIterator itNAry(arrays, planes, 1);
+        Mat plane;
+        NAryMatIterator it(&hist, &plane, 1);
         double s = 0;
         // iterate through the matrix. on each iteration
-        // itNAry.planes[i] (of type Mat) will be set to the current plane
-        // of the i-th n-dim matrix passed to the iterator constructor.
-        for(int p = 0; p < itNAry.nplanes; p++, ++itNAry)
+        // it.planes[*] (of type Mat) will be set to the current plane.
+        for(int p = 0; p < it.nplanes; p++, ++it)
         {
-            threshold(itNAry.planes[0], itNAry.planes[0], minProb, 0, THRESH_TOZERO);
-            s += sum(itNAry.planes[0])[0];
+            threshold(it.planes[0], it.planes[0], minProb, 0, THRESH_TOZERO);
+            s += sum(it.planes[0])[0];
         }
 
         s = 1./s;
-        itNAry = NAryMatIterator(arrays, planes, 1);
-        for(int p = 0; p < itNAry.nplanes; p++, ++itNAry)
-            itNAry.planes[0] *= s;
+        it = NAryMatIterator(&hist, &plane, 1);
+        for(int p = 0; p < it.nplanes; p++, ++it)
+            it.planes[0] *= s;
     }
 @endcode
  */
@@ -3362,7 +3240,7 @@ Here are examples of matrix expressions:
     // sharpen image using "unsharp mask" algorithm
     Mat blurred; double sigma = 1, threshold = 5, amount = 1;
     GaussianBlur(img, blurred, Size(), sigma, sigma);
-    Mat lowContrastMask = abs(img - blurred) < threshold;
+    Mat lowConstrastMask = abs(img - blurred) < threshold;
     Mat sharpened = img*(1+amount) + blurred*(-amount);
     img.copyTo(sharpened, lowContrastMask);
 @endcode
@@ -3517,4 +3395,4 @@ CV_EXPORTS MatExpr abs(const MatExpr& e);
 
 #include "opencv2/core/mat.inl.hpp"
 
-#endif // OPENCV_CORE_MAT_HPP
+#endif // __OPENCV_CORE_MAT_HPP__

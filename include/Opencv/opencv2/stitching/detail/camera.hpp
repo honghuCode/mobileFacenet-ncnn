@@ -40,8 +40,8 @@
 //
 //M*/
 
-#ifndef OPENCV_STITCHING_CAMERA_HPP
-#define OPENCV_STITCHING_CAMERA_HPP
+#ifndef __OPENCV_STITCHING_CAMERA_HPP__
+#define __OPENCV_STITCHING_CAMERA_HPP__
 
 #include "opencv2/core.hpp"
 
@@ -75,4 +75,4 @@ struct CV_EXPORTS CameraParams
 } // namespace detail
 } // namespace cv
 
-#endif // #ifndef OPENCV_STITCHING_CAMERA_HPP
+#endif // #ifndef __OPENCV_STITCHING_CAMERA_HPP__

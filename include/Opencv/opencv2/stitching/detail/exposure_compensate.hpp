@@ -40,12 +40,8 @@
 //
 //M*/
 
-#ifndef OPENCV_STITCHING_EXPOSURE_COMPENSATE_HPP
-#define OPENCV_STITCHING_EXPOSURE_COMPENSATE_HPP
-
-#if defined(NO)
-#  warning Detected Apple 'NO' macro definition, it can cause build conflicts. Please, include this header before any Apple headers.
-#endif
+#ifndef __OPENCV_STITCHING_EXPOSURE_COMPENSATE_HPP__
+#define __OPENCV_STITCHING_EXPOSURE_COMPENSATE_HPP__
 
 #include "opencv2/core.hpp"
 
@@ -133,4 +129,4 @@ private:
 } // namespace detail
 } // namespace cv
 
-#endif // OPENCV_STITCHING_EXPOSURE_COMPENSATE_HPP
+#endif // __OPENCV_STITCHING_EXPOSURE_COMPENSATE_HPP__
