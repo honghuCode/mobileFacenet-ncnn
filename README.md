@@ -18,4 +18,8 @@
 ##### 2.将BN层和卷积层合并（提高速度）参考： https://github.com/chuanqi305/MobileNet-SSD/blob/master/merge_bn.py
 ##### 3.将caffe模型转换为ncnn模型。
 
+### 增加mtcnn 做人脸对齐
+https://github.com/honghuCode/mobileFacenet-ncnn/tree/update-mobilefacenet-ncnn
+
+
 ######## 欢迎入QQ群 707134958交流
