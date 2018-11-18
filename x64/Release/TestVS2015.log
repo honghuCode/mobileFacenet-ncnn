@@ -1,3 +1,0 @@
-﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppClean.targets(76,5): warning : 对路径“c:\insightface\ncnn-mobilefacenet\mtcnn_ncnn\vs2015\x64\release\testvs2015.exe”的访问被拒绝。
-  main.cpp
-LINK : fatal error LNK1104: cannot open file 'C:\insightFace\ncnn-mobileFaceNet\mtcnn_ncnn\vs2015\x64\Release\TestVS2015.exe'

@@ -4078,85 +4078,162 @@
     }, 
     {
       "op": "null", 
-      "name": "conv_6dw7_7_conv2d_weight", 
+      "name": "bn6f_gamma", 
       "attrs": {
-        "kernel": "(7, 7)", 
-        "no_bias": "True", 
-        "num_filter": "512", 
-        "num_group": "512", 
-        "pad": "(0, 0)", 
-        "stride": "(1, 1)"
-      }, 
-      "inputs": []
-    }, 
-    {
-      "op": "Convolution", 
-      "name": "conv_6dw7_7_conv2d", 
-      "attrs": {
-        "kernel": "(7, 7)", 
-        "no_bias": "True", 
-        "num_filter": "512", 
-        "num_group": "512", 
-        "pad": "(0, 0)", 
-        "stride": "(1, 1)"
-      }, 
-      "inputs": [[416, 0, 0], [417, 0, 0]]
-    }, 
-    {
-      "op": "null", 
-      "name": "conv_6dw7_7_batchnorm_gamma", 
-      "attrs": {
-        "fix_gamma": "False", 
+        "eps": "2e-05", 
+        "fix_gamma": "True", 
         "momentum": "0.9"
       }, 
       "inputs": []
     }, 
     {
       "op": "null", 
-      "name": "conv_6dw7_7_batchnorm_beta", 
+      "name": "bn6f_beta", 
       "attrs": {
-        "fix_gamma": "False", 
+        "eps": "2e-05", 
+        "fix_gamma": "True", 
         "momentum": "0.9"
       }, 
       "inputs": []
     }, 
     {
       "op": "null", 
-      "name": "conv_6dw7_7_batchnorm_moving_mean", 
+      "name": "bn6f_moving_mean", 
       "attrs": {
         "__init__": "[\"zero\", {}]", 
-        "fix_gamma": "False", 
+        "eps": "2e-05", 
+        "fix_gamma": "True", 
         "momentum": "0.9"
       }, 
       "inputs": []
     }, 
     {
       "op": "null", 
-      "name": "conv_6dw7_7_batchnorm_moving_var", 
+      "name": "bn6f_moving_var", 
       "attrs": {
         "__init__": "[\"one\", {}]", 
-        "fix_gamma": "False", 
+        "eps": "2e-05", 
+        "fix_gamma": "True", 
         "momentum": "0.9"
       }, 
       "inputs": []
     }, 
     {
       "op": "BatchNorm", 
-      "name": "conv_6dw7_7_batchnorm", 
+      "name": "bn6f", 
       "attrs": {
-        "fix_gamma": "False", 
+        "eps": "2e-05", 
+        "fix_gamma": "True", 
         "momentum": "0.9"
       }, 
-      "inputs": [[418, 0, 0], [419, 0, 0], [420, 0, 0], [421, 0, 1], [422, 0, 1]]
+      "inputs": [[416, 0, 0], [417, 0, 0], [418, 0, 0], [419, 0, 1], [420, 0, 1]]
+    }, 
+    {
+      "op": "elemwise_mul", 
+      "name": "_mul0", 
+      "inputs": [[421, 0, 0], [421, 0, 0]]
+    }, 
+    {
+      "op": "sum", 
+      "name": "sum0", 
+      "attrs": {
+        "axis": "1", 
+        "keepdims": "True"
+      }, 
+      "inputs": [[422, 0, 0]]
+    }, 
+    {
+      "op": "sqrt", 
+      "name": "sqrt0", 
+      "inputs": [[423, 0, 0]]
+    }, 
+    {
+      "op": "mean", 
+      "name": "mean0", 
+      "inputs": [[424, 0, 0]]
+    }, 
+    {
+      "op": "broadcast_div", 
+      "name": "broadcast_div0", 
+      "inputs": [[425, 0, 0], [424, 0, 0]]
+    }, 
+    {
+      "op": "tile", 
+      "name": "tile0", 
+      "attrs": {"reps": "(1, 512, 1, 1)"}, 
+      "inputs": [[426, 0, 0]]
+    }, 
+    {
+      "op": "elemwise_mul", 
+      "name": "_mul1", 
+      "inputs": [[421, 0, 0], [427, 0, 0]]
+    }, 
+    {
+      "op": "Pooling", 
+      "name": "pooling0", 
+      "attrs": {
+        "global_pool": "True", 
+        "kernel": "(7, 7)", 
+        "pool_type": "avg"
+      }, 
+      "inputs": [[428, 0, 0]]
     }, 
     {
       "op": "null", 
-      "name": "fc1_weight", 
+      "name": "bn6w_gamma", 
       "attrs": {
-        "__lr_mult__": "1.0", 
-        "__shape__": "(128, 512)", 
-        "__wd_mult__": "10.0"
+        "eps": "2e-05", 
+        "fix_gamma": "True", 
+        "momentum": "0.9"
       }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "bn6w_beta", 
+      "attrs": {
+        "eps": "2e-05", 
+        "fix_gamma": "True", 
+        "momentum": "0.9"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "bn6w_moving_mean", 
+      "attrs": {
+        "__init__": "[\"zero\", {}]", 
+        "eps": "2e-05", 
+        "fix_gamma": "True", 
+        "momentum": "0.9"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "bn6w_moving_var", 
+      "attrs": {
+        "__init__": "[\"one\", {}]", 
+        "eps": "2e-05", 
+        "fix_gamma": "True", 
+        "momentum": "0.9"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "BatchNorm", 
+      "name": "bn6w", 
+      "attrs": {
+        "eps": "2e-05", 
+        "fix_gamma": "True", 
+        "momentum": "0.9"
+      }, 
+      "inputs": [[429, 0, 0], [430, 0, 0], [431, 0, 0], [432, 0, 1], [433, 0, 1]]
+    }, 
+    {
+      "op": "null", 
+      "name": "pre_fc1_weight", 
+      "attrs": {"num_hidden": "128"}, 
       "inputs": []
     }, 
     {
@@ -4169,7 +4246,7 @@
       "op": "FullyConnected", 
       "name": "pre_fc1", 
       "attrs": {"num_hidden": "128"}, 
-      "inputs": [[423, 0, 0], [424, 0, 0], [425, 0, 0]]
+      "inputs": [[434, 0, 0], [435, 0, 0], [436, 0, 0]]
     }, 
     {
       "op": "null", 
@@ -4221,7 +4298,7 @@
         "fix_gamma": "True", 
         "momentum": "0.9"
       }, 
-      "inputs": [[426, 0, 0], [427, 0, 0], [428, 0, 0], [429, 0, 1], [430, 0, 1]]
+      "inputs": [[437, 0, 0], [438, 0, 0], [439, 0, 0], [440, 0, 1], [441, 0, 1]]
     }
   ], 
   "arg_nodes": [
@@ -4500,16 +4577,19 @@
     413, 
     415, 
     417, 
+    418, 
     419, 
     420, 
-    421, 
-    422, 
-    424, 
-    425, 
-    427, 
-    428, 
-    429, 
-    430
+    430, 
+    431, 
+    432, 
+    433, 
+    435, 
+    436, 
+    438, 
+    439, 
+    440, 
+    441
   ], 
   "node_row_ptr": [
     0, 
@@ -4934,8 +5014,8 @@
     515, 
     516, 
     517, 
-    518, 
-    519, 
+    520, 
+    521, 
     522, 
     523, 
     524, 
@@ -4944,8 +5024,19 @@
     527, 
     528, 
     529, 
-    532
+    530, 
+    531, 
+    532, 
+    535, 
+    536, 
+    537, 
+    538, 
+    539, 
+    540, 
+    541, 
+    542, 
+    545
   ], 
-  "heads": [[431, 0, 0]], 
-  "attrs": {"mxnet_version": ["int", 10000]}
+  "heads": [[442, 0, 0]], 
+  "attrs": {"mxnet_version": ["int", 10100]}
 }
