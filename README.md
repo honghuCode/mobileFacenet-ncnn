@@ -31,11 +31,15 @@
     
     fc1 = mx.sym.BatchNorm(data=conv_6_f, fix_gamma=True, eps=2e-5, momentum=bn_mom, name='fc1')
 ```
+###### 修复方法，将项目 mxnet2caffe下的transformer.py 的40行添加 'key_caffe = 'pre_fc1' 即可。pre_fc1是全连接层，但是 mobilefacenet在全连接层后面又添加了 batchnorm的操作，而该层的name为 'fc1',又由于 mxnet会将该层的权重命名为'fc1_weight'，偏置重命名为'fc1_bias'，很容易造成caffe的同学的误解。
 
-
-###  mobilefacenet项目转成caffe格式
+###  mobilefacenet++项目转成caffe格式
 
 1.运行json2prototxt.py 文件，将model-symbol.json 转为mobilefacenet.prototxt文件
 2.修改生成的mobilefacenet.prototxt文件的第12行，将_mulscalar0 改为data
 3.修改生成的mobilefacenet.prototxt文件的第1986行，将_mul1 改为bn6f
 4.运行 transformer.py 文件 生成mobilefacenet.prototxt.caffemodel文件
+
+###  mobilefacenet项目转成caffe格式
+
+同mobilefacenet++项目项目，但是transformer.py文件需要修改为本项目的文件
