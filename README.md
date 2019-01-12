@@ -1,7 +1,7 @@
 ### 问题更新：通过 mxnet2caffe项目 转成的caffe模型 对不同图像 返回相同的结果
 ##### 分析: 早期版本的mobilefaceNet 项目有一个bug, 全连接层的 name为pre_fc1，但是权重名称为‘fc1_weight’，导致转换后的caffe model 对应层的权重值有问题。代码如下，bug代码为29-30行
   
-
+```
   def get_symbol(num_classes, **kwargs):
     global bn_mom
     bn_mom = kwargs.get('bn_mom', 0.9)
@@ -30,7 +30,7 @@
     conv_6_f = mx.sym.FullyConnected(data=conv_6_dw, weight=_weight, num_hidden=num_classes, name='pre_fc1')
     
     fc1 = mx.sym.BatchNorm(data=conv_6_f, fix_gamma=True, eps=2e-5, momentum=bn_mom, name='fc1')
-
+```
 
 
 ###  mobilefacenet项目转成caffe格式
