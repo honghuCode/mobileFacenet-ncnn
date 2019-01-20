@@ -21,5 +21,10 @@
 ### 增加mtcnn 做人脸对齐
 https://github.com/honghuCode/mobileFacenet-ncnn/tree/update-mobilefacenet-ncnn
 
+### update 2019-01-20
+### 将BN层和卷积层合并（提高速度)
+#### 未merge bn前50ms 每张图像 (pycaffe + i7)，merge bn后 40ms
+
+
 
 ######## 欢迎入QQ群 707134958交流
